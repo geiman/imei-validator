@@ -69,22 +69,24 @@
 <body>
   <div class="container">
     <h2>IMEI Validator</h2>
-    <input type="text" id="imeiInput" placeholder="Enter IMEI (15 digits)" maxlength="15" />
+    <input type="text" id="imeiInput" placeholder="Enter IMEI (15+ digits)" maxlength="20" />
     <button onclick="validateIMEI()">Validate</button>
     <div id="output" class="result"></div>
   </div>
 
   <script>
     function validateIMEI() {
-      const input = document.getElementById("imeiInput").value.trim();
+      const rawInput = document.getElementById("imeiInput").value.trim();
+      const digitsOnly = rawInput.replace(/\\D/g, "");
       const output = document.getElementById("output");
 
-      if (!/^\\d{15}$/.test(input)) {
-        output.innerHTML = `<p style="color:red;">IMEI must be exactly 15 digits and contain only numeric characters.</p>`;
+      if (digitsOnly.length < 15) {
+        output.innerHTML = `<p style="color:red;">IMEI must be at least 15 digits long. You entered ${digitsOnly.length} digit(s).</p>`;
         return;
       }
 
-      const imei = input;
+      const imei = digitsOnly.substring(0, 15);
+      const extras = digitsOnly.length > 15 ? digitsOnly.substring(15) : "";
       let sum = 0;
       for (let i = 0; i < 14; i++) {
         let digit = parseInt(imei.charAt(i));
@@ -97,19 +99,27 @@
       const actualCheckDigit = parseInt(imei.charAt(14));
       const valid = correctCheckDigit === actualCheckDigit;
 
+      let message = "";
+
+      if (extras.length > 0) {
+        message += `<p style="color:gray;">Note: Extra digit(s) <strong>${extras}</strong> were ignored during validation.</p>`;
+      }
+
       if (valid) {
-        output.innerHTML = `
+        message += `
           <p style="color:lightgreen;">✔️ IMEI is valid.</p>
           <p><a href="https://www.imei.info/?imei=${imei}" target="_blank">Check on IMEI.info</a></p>
         `;
       } else {
         const correctedIMEI = imei.substring(0, 14) + correctCheckDigit;
-        output.innerHTML = `
+        message += `
           <p style="color:orange;">❌ IMEI is invalid. Expected check digit: <strong>${correctCheckDigit}</strong></p>
           <p>Corrected IMEI: <strong>${correctedIMEI}</strong></p>
           <p><a href="https://www.imei.info/?imei=${correctedIMEI}" target="_blank">Check corrected IMEI on IMEI.info</a></p>
         `;
       }
+
+      output.innerHTML = message;
     }
   </script>
 </body>
