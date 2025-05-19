@@ -87,14 +87,15 @@ body {
     <body>
         <div class="container">
             <h2>IMEI Validator</h2>
-            <input type="text" id="imeiInput" placeholder="Enter IMEI (15+ digits)" maxlength="20" />
+            <input type="text" id="imeiInput" placeholder="Enter IMEI (15+ digits)" maxlength="20" inputmode="numeric" />
             <button onclick="validateIMEI()">Validate</button>
             <div id="output" class="result"></div>
         </div>
 
         <script>
             function validateIMEI() {
-                const rawInput = document.getElementById("imeiInput").value.trim();
+                const inputField = document.getElementById("imeiInput");
+                const rawInput = inputField.value.trim();
                 const digitsOnly = rawInput.replace(/\\D/g, "");
                 const output = document.getElementById("output");
 
@@ -147,6 +148,10 @@ body {
                     event.preventDefault();
                     validateIMEI();
                 }
+            });
+
+            document.getElementById("imeiInput").addEventListener("input", function(event) {
+                this.value = this.value.replace(/[^0-9]/g, '');
             });
         </script>
     </body>
