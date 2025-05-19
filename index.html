@@ -127,6 +127,7 @@ body {
                     message += `
           <p style="color:lightgreen;">✔️ IMEI is valid.</p>
           <p><a href="https://www.imei.info/?imei=${imei}" target="_blank">Check on IMEI.info</a></p>
+          <p style="color:orange;"><strong>**This sends the IMEI to an external site</strong></p>
         `;
                 } else {
                     const correctedIMEI = imei.substring(0, 14) + correctCheckDigit;
