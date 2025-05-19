@@ -79,7 +79,7 @@
       const input = document.getElementById("imeiInput").value.trim();
       const output = document.getElementById("output");
 
-      if (!/^\d{15}$/.test(input)) {
+      if (!/^\\d{15}$/.test(input)) {
         output.innerHTML = `<p style="color:red;">IMEI must be exactly 15 digits and contain only numeric characters.</p>`;
         return;
       }
