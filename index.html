@@ -13,20 +13,23 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+    padding: 1rem;
+    font-size: 1rem;
 }
     .container {
         background-color: #2a2a2a;
         padding: 2rem;
         border-radius: 12px;
         box-shadow: 0 0 20px rgba(0,0,0,0.4);
-        width: 90%;
+        width: 100%;
         max-width: 400px;
+        box-sizing: border-box;
     }
     input[type="text"] {
         width: 100%;
-        padding: 0.75rem;
+        padding: 1rem;
         font-size: 1rem;
         margin-bottom: 1rem;
         border: none;
@@ -39,12 +42,13 @@ body {
         background-color: #4caf50;
         color: white;
         border: none;
-        padding: 0.75rem 1.5rem;
+        padding: 1rem;
         font-size: 1rem;
         border-radius: 8px;
         cursor: pointer;
         width: 100%;
         box-sizing: border-box;
+        transition: background-color 0.2s ease-in-out;
     }
     button:hover {
         background-color: #45a049;
@@ -55,6 +59,8 @@ body {
         background-color: #333;
         border-radius: 8px;
         width: 100%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
         box-sizing: border-box;
     }
     a {
@@ -63,6 +69,18 @@ body {
     }
     a:hover {
         text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            padding: 1.5rem 1rem;
+        }
+        h2 {
+            font-size: 1.25rem;
+        }
+        input, button {
+            font-size: 1rem;
+        }
     }
         </style>
     </head>
@@ -102,7 +120,7 @@ body {
                 let message = "";
 
                 if (extras.length > 0) {
-                    message += `<p style="color:gray;">Note: Extra digit(s) <strong>"${extras}"</strong> were ignored during validation.</p>`;
+                    message += `<p style="color:gray;">Note: Extra digit(s) <strong>${extras}</strong> were ignored during validation.</p>`;
                 }
 
                 if (valid) {
@@ -121,13 +139,13 @@ body {
 
                 output.innerHTML = message;
             }
+
             document.getElementById("imeiInput").addEventListener("keydown", function(event) {
                 if (event.key === "Enter") {
-                    event.preventDefault(); // Prevent form submission (if form exists)
-                    validateIMEI();         // Call the validation function
+                    event.preventDefault();
+                    validateIMEI();
                 }
             });
-
         </script>
     </body>
 </html>
